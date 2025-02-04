@@ -1,6 +1,6 @@
-[submodule "src/ext/json"]
-	path = src/ext/json
-	url = git@github.com:nlohmann/json.git
 [submodule "src/ext/eigen"]
 	path = src/ext/eigen
 	url = https://gitlab.com/libeigen/eigen.git
+[submodule "src/ext/json"]
+	path = src/ext/json
+	url = https://github.com/nlohmann/json.git
