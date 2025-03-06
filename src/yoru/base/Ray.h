@@ -12,9 +12,11 @@ public:
         return origin + direction * t;
     }
 
+
 public:
     Point3 origin;
     Vector3 direction;
     double timeMin;
     double timeMax;
 };
+

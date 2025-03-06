@@ -1,7 +1,9 @@
 #include "Transform.h"
+#include "Common.h"
 
 #include <cstring>
 #include <limits>
+#include <cmath>
 Transform::Transform(const Eigen::Matrix4d &mat) {
     m_transform = mat;
     m_inverse = m_transform.inverse();
@@ -19,12 +21,14 @@ Transform Transform::operator*(const Transform &other) const {
 Point3 Transform::operator()(const Point3 &point) const {
     Eigen::Vector4d p = {point.x, point.y, point.z, 1.};
     p = m_transform * p;
-    return {p(0), p(1), p(2)};
+    double invW = 1. / p(3);
+    return {p(0) * invW, p(1) * invW, p(2) * invW};
 }
 
 Vector3 Transform::operator()(const Vector3 &vec) const {
     Eigen::Vector4d v = {vec.x, vec.y, vec.z, 0.};
     v = m_transform * v;
+    assert(v(3) == 0);
     return {v(0), v(1), v(2)};
 }
 
@@ -34,6 +38,33 @@ Ray Transform::operator()(const Ray &ray) const {
     Vector3 d = ray.direction;
     d = (*this)(d);
     return Ray(o, d, ray.timeMin, ray.timeMax);
+}
+
+BBox3 Transform::operator()(const BBox3 &bbox) const {
+    BBox3 res;
+    for (int i = 0; i < 8; ++i) {
+        res.Union((*this)(bbox.Corner(i)));
+    }
+    return res;
+}
+
+Intersection Transform::operator()(const Intersection &its) const {
+    const Transform &t = *this;
+    Intersection res;
+    res.dpdu = t(res.dpdu);
+    res.dpdv = t(res.dpdv);
+    res.p = t(res.p);
+    res.uv = its.uv;
+    res.wo = Normalized(t(its.wo));
+
+    res.geoFrame.n = Normalized(t(res.geoFrame.n));
+    res.geoFrame.s = Normalized(t(res.geoFrame.s));
+    res.geoFrame.t = Normalized(t(res.geoFrame.t));
+
+    res.shFrame.n = Normalized(t(res.shFrame.n));
+    res.shFrame.s = Normalized(t(res.shFrame.s));
+    res.shFrame.t = Normalized(t(res.shFrame.t));
+    return res;
 }
 
 Transform Transform::Translation(double tx, double ty, double tz) {
@@ -139,17 +170,31 @@ Transform Transform::Rotate(double theta, Vector3 axis) {
 }
 
 Transform Transform::LookAt(Point3 eye, Point3 center, Vector3 up) {
-    Vector3 direction = Normalized(center - eye);
+    Vector3 direction = Normalized(eye - center);
     Vector3 right = Normalized(Cross(up, direction));
-    Vector3 newUp = Cross(direction, up);
+    Vector3 newUp = Cross(direction, right);
 
     Eigen::Matrix4d worldFromCamera;
 
-    worldFromCamera << -right.x, up.x, -direction.x, eye.x,
-        -right.y, up.y, -direction.y, eye.y,
-        -right.z, up.z, -direction.z, eye.z,
+    worldFromCamera << right.x, up.x, direction.x, eye.x,
+        right.y, up.y, direction.y, eye.y,
+        right.z, up.z, direction.z, eye.z,
         0, 0, 0, 1;
 
     Eigen::Matrix4d cameraFromWorld = worldFromCamera.inverse();
     return Transform(cameraFromWorld, worldFromCamera);
+}
+
+Transform Transform::Orthographic(double zNear, double zFar) {
+    return Scale(1, 1, 1. / (zNear - zFar)) * Translation(0, 0, zNear);
+}
+
+Transform Transform::Perspective(double fov, double zNear, double zFar) {
+    Eigen::Matrix4d perspec;
+    perspec << -1, 0, 0, 0,
+        0, -1, 0, 0,
+        0, 0, zFar / (zFar - zNear), zFar * zNear / (zFar - zNear),
+        0, 0, 1, 0;
+    double invTanAngle = 1. / std::tan(Radian(fov) / 2.);
+    return Scale(invTanAngle, invTanAngle, 1) * Transform(perspec);
 }
