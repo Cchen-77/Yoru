@@ -46,7 +46,7 @@ std::optional<Ray> OrthographicCamera::GenerateRay(const CameraSample &sample, c
     Point3 pFilm = Point3(sample.pFilm.x, sample.pFilm.y, 0);
     Point3 pCamera = cameraFromRaster(pFilm);
 
-    Ray r = Ray({0, 0, 0}, Normalized(Vector3(pCamera)));
+    Ray r = Ray(pCamera, {0, 0, -1});
 
     return baseTransform.renderFromCamera(r);
 }

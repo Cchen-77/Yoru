@@ -5,6 +5,7 @@ set(YORU_ALL_SOURCES
     yoru/as/EmbreeAS.cpp
     yoru/as/NaiveAS.cpp
 
+    yoru/base/Common.cpp
     yoru/base/Vector.cpp
     yoru/base/Transform.cpp
     yoru/base/Ray.cpp
@@ -25,14 +26,25 @@ set(YORU_ALL_SOURCES
     yoru/filter/Filter.cpp
 
     yoru/integrator/Integrator.cpp
+    yoru/integrator/NormalIntegrator.cpp
+    yoru/integrator/PTIntegrator.cpp
 
     yoru/light/Light.cpp
+    yoru/light/PointLight.cpp
+    yoru/light/DistanceLight.cpp
+    yoru/light/AreaLight.cpp
+
+    yoru/texture/Textures.cpp
+    yoru/texture/ImageTextures.cpp
 
     yoru/utils/BufferCache.cpp
     yoru/utils/Sampling.cpp
     yoru/utils/Parallelism.cpp
 
     yoru/material/Material.cpp
+    yoru/material/DiffuseMaterial.cpp
+    yoru/material/BxDF/BxDF.cpp
+    yoru/material/BxDF/LambertianBRDF.cpp
 
     yoru/primitive/Primitive.cpp
     yoru/primitive/GeometricPrimitive.cpp
@@ -76,8 +88,16 @@ set(YORU_ALL_INCLUDES
     yoru/filter/Filter.h
 
     yoru/integrator/Integrator.h
+    yoru/integrator/NormalIntegrator.h
+    yoru/integrator/PTIntegrator.h
 
     yoru/light/Light.h
+    yoru/light/PointLight.h
+    yoru/light/DistanceLight.h
+    yoru/light/AreaLight.h
+
+    yoru/texture/Textures.h
+    yoru/texture/ImageTextures.h
 
     yoru/utils/BufferCache.h
     yoru/utils/Hash.h
@@ -87,6 +107,9 @@ set(YORU_ALL_INCLUDES
     yoru/utils/Parallelism.h
 
     yoru/material/Material.h
+    yoru/material/DiffuseMaterial.h
+    yoru/material/BxDF/BxDF.h
+    yoru/material/BxDF/LambertianBRDF.h
 
     yoru/primitive/Primitive.h
     yoru/primitive/GeometricPrimitive.h

@@ -11,4 +11,10 @@ struct Frame {
         coordinateSystem(n, s, t);
     }
 
+    Vector3 ToLocal(Vector3 v) const {
+        return {Dot(v, s), Dot(v, t), Dot(n, t)};
+    }
+    Vector3 FromLocal(Vector3 v) const {
+        return s * v[0] + t * v[1] + n * v[2];
+    }
 };

@@ -7,3 +7,6 @@
 [submodule "src/ext/stb"]
 	path = src/ext/stb
 	url = git@github.com:nothings/stb.git
+[submodule "src/ext/tinyobjloader"]
+	path = src/ext/tinyobjloader
+	url = git@github.com:tinyobjloader/tinyobjloader.git

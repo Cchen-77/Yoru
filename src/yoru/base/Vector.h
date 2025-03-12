@@ -10,6 +10,7 @@ template<typename T>
 class TVector2 {
 public:
     TVector2() : x(0), y(0) {}
+    TVector2(T c) : x(c), y(c) {}
     TVector2(T x, T y) : x(x), y(y) {}
     explicit TVector2(const TPoint2<T> &p) : x(p.x), y(p.y){};
 
@@ -54,6 +55,10 @@ public:
         return std::sqrt(x * x + y * y);
     }
 
+    T Length2() const {
+        return x * x + y * y;
+    }
+
     TVector2 Normalize() const {
         T len = Length();
         assert(len != 0);
@@ -92,6 +97,7 @@ template<typename T>
 class TPoint2 {
 public:
     TPoint2() : x(0), y(0) {}
+    TPoint2(T c) : x(c), y(c) {}
     TPoint2(T x, T y) : x(x), y(y) {}
     explicit TPoint2(const TVector2<T> &v) : x(v.x), y(v.y) {}
 
@@ -157,6 +163,7 @@ template<typename T>
 class TVector3 {
 public:
     TVector3() : x(0), y(0), z(0) {}
+    TVector3(T c) : x(c), y(c), z(c) {}
     TVector3(T x, T y, T z) : x(x), y(y), z(z) {}
     explicit TVector3(const TPoint3<T> &p) : x(p.x), y(p.y), z(p.z){};
 
@@ -220,6 +227,10 @@ public:
         return std::sqrt(x * x + y * y + z * z);
     }
 
+    T Length2() const {
+        return x * x + y * y + z * z;
+    }
+
     TVector3 Normalize() const {
         T len = Length();
         assert(len != 0);
@@ -247,6 +258,11 @@ inline T Dot(const TVector3<T> &lhs, const TVector3<T> &rhs) {
 }
 
 template<typename T>
+inline T AbsDot(const TVector3<T> &lhs, const TVector3<T> &rhs) {
+    return std::abs(lhs.Dot(rhs));
+}
+
+template<typename T>
 inline TVector3<T> Cross(const TVector3<T> &lhs, const TVector3<T> &rhs) {
     return lhs.Cross(rhs);
 }
@@ -270,6 +286,7 @@ template<typename T>
 class TPoint3 {
 public:
     TPoint3() : x(0), y(0), z(0) {}
+    TPoint3(T c) : x(x), y(c), z(c) {}
     TPoint3(T x, T y, T z) : x(x), y(y), z(z) {}
     explicit TPoint3(const TVector3<T> &v) : x(v.x), y(v.y), z(v.z) {}
 

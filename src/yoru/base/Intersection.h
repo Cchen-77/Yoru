@@ -1,7 +1,9 @@
 #pragma once
 #include "Frame.h"
-#include "material/Material.h"
-#include "light/Light.h"
+
+#include <memory>
+class Material;
+class AreaLight;
 struct Intersection {
     Point3 p;
     Frame geoFrame;
@@ -12,5 +14,5 @@ struct Intersection {
     Vector3 dpdu, dpdv;
 
     std::shared_ptr<Material> material;
-    std::shared_ptr<Light> light;
+    std::shared_ptr<AreaLight> light;
 };

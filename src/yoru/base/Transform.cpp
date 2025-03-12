@@ -57,13 +57,13 @@ Intersection Transform::operator()(const Intersection &its) const {
     res.uv = its.uv;
     res.wo = Normalized(t(its.wo));
 
-    res.geoFrame.n = Normalized(t(res.geoFrame.n));
-    res.geoFrame.s = Normalized(t(res.geoFrame.s));
-    res.geoFrame.t = Normalized(t(res.geoFrame.t));
+    res.geoFrame.n = Normalized(t(its.geoFrame.n));
+    res.geoFrame.s = Normalized(t(its.geoFrame.s));
+    res.geoFrame.t = Normalized(t(its.geoFrame.t));
 
-    res.shFrame.n = Normalized(t(res.shFrame.n));
-    res.shFrame.s = Normalized(t(res.shFrame.s));
-    res.shFrame.t = Normalized(t(res.shFrame.t));
+    res.shFrame.n = Normalized(t(its.shFrame.n));
+    res.shFrame.s = Normalized(t(its.shFrame.s));
+    res.shFrame.t = Normalized(t(its.shFrame.t));
     return res;
 }
 

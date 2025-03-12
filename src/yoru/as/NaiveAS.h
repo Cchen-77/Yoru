@@ -5,7 +5,7 @@
 #include <vector>
 class NaiveAS : public AS {
 public:
-    NaiveAS(const std::vector<std::shared_ptr<Primitive>> &primtives) : primitives(primitives) {
+    NaiveAS(const std::vector<std::shared_ptr<Primitive>> &primitives) : primitives(primitives) {
         for (auto &primitive : primitives) {
             bbox.Union(primitive->BBox());
         }

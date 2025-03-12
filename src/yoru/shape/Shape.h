@@ -16,6 +16,9 @@ struct ShapeSample {
     Point2 uv;
 };
 struct ShapeSampleContext {
+    Point3 p;
+    Vector3 n;
+    Vector3 ns;
 };
 class Shape {
 public:
@@ -31,6 +34,7 @@ public:
     virtual double PDF(const Intersection &its) const = 0;
 
     virtual std::optional<ShapeSample> Sample(const ShapeSampleContext &ctx, Point2 u) const { return std::nullopt; }
+    virtual double PDF(const ShapeSampleContext &ctxt, Vector3 wi) const { return 0.; }
 
 protected:
     Transform renderFromObject;

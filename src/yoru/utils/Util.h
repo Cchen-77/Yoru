@@ -1,5 +1,5 @@
 #pragma once
-#include"base/Vector.h"
+#include "base/Vector.h"
 inline void coordinateSystem(Vector3 &a, Vector3 &b, Vector3 &c) {
     a = Normalized(a);
     if (std::abs(a.x) > std::abs(a.y)) {

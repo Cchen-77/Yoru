@@ -16,6 +16,7 @@ EmbreeAS::EmbreeAS(const std::vector<std::shared_ptr<Primitive>> &_primtives) : 
         rtcAttachGeometry(scene, geom);
         rtcReleaseGeometry(geom);
     }
+    rtcCommitScene(scene);
 }
 
 EmbreeAS::~EmbreeAS() {
@@ -60,6 +61,8 @@ RTCRay EmbreeAS::rayFromRay(const Ray &ray) const {
 
     r.tfar = ray.timeMax;
     r.tnear = ray.timeMin;
+    r.mask = -1;
+    r.flags = 0;
     
     return r;
 }
